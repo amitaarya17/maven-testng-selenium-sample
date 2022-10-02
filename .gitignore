@@ -6,6 +6,8 @@ target/*
 *.log
 logs/*
 
+# Reporting
+allure-results/*
 
 # Package Files #
 *.jar
