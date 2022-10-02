@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum Environment {
     LOCAL("local"),
-    DOCKER("docker.container");
+    GRID("grid");
 
     private final String env;
 

@@ -29,7 +29,7 @@ public class WebDriverManager {
         switch (ENVIRONMENT) {
             case LOCAL:
                 return setupLocalDriver();
-            case DOCKER:
+            case GRID:
                 return setupRemoteDriver();
             default:
                 throw new RuntimeException("The environment "+ ENVIRONMENT + "  is not available.");
