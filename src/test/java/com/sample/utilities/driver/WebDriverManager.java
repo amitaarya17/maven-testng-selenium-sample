@@ -20,7 +20,7 @@ public class WebDriverManager {
     private static Properties configProperties = ConfigReader.getInstance().getEnvConfigProperties();
     private static Browser BROWSER = Browser.getBrowser(configProperties.getProperty("BROWSER"));
 
-    private static WebDriver getDriver() {
+    public static WebDriver getDriver() {
         return driver.get();
     }
 
@@ -37,7 +37,7 @@ public class WebDriverManager {
     }
 
     public static WebDriver setupLocalDriver(){
-        WebDriver webDriver = driver.get();
+        WebDriver webDriver;
         switch (BROWSER) {
             case CHROME:
                 LOGGER.info("Creating chrome browser session");
