@@ -25,18 +25,18 @@ public class WebDriverManager {
     }
 
     public static WebDriver getWebDriver() {
-        LOGGER.info("Creating webdriver for " +  ENVIRONMENT);
+        LOGGER.info("Creating webdriver for " + ENVIRONMENT);
         switch (ENVIRONMENT) {
             case LOCAL:
                 return setupLocalDriver();
             case GRID:
                 return setupRemoteDriver();
             default:
-                throw new RuntimeException("The environment "+ ENVIRONMENT + "  is not available.");
+                throw new RuntimeException("The environment " + ENVIRONMENT + "  is not available.");
         }
     }
 
-    public static WebDriver setupLocalDriver(){
+    public static WebDriver setupLocalDriver() {
         WebDriver webDriver;
         switch (BROWSER) {
             case CHROME:
@@ -55,11 +55,11 @@ public class WebDriverManager {
 
     }
 
-    public static WebDriver setupRemoteDriver(){
+    public static WebDriver setupRemoteDriver() {
         return getDriver();
     }
 
-    public static void quitDriver(){
+    public static void quitDriver() {
         getDriver().quit();
         driver.remove();
     }

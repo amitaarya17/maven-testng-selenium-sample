@@ -8,11 +8,10 @@ import java.time.Duration;
 public abstract class AbstractPage {
     public final WebDriver driver;
     public final WebDriverWait wait;
-    public final long waitTime = Long.getLong(System.getProperty("wait"));
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(waitTime));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     public WebDriver getDriver() {

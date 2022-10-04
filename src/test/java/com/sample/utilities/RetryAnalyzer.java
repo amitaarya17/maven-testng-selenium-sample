@@ -1,7 +1,6 @@
 package com.sample.utilities;
 
 import com.sample.utilities.config.ConfigReader;
-import com.sample.utilities.driver.CapabilityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.IRetryAnalyzer;
@@ -18,7 +17,6 @@ public class RetryAnalyzer implements IRetryAnalyzer {
      * The internal retry count
      */
     private int retryCount = 0;
-
 
     /**
      * Returns true if the test method has to be retried, false otherwise.
