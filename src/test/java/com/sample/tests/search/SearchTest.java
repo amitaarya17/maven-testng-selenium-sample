@@ -54,6 +54,5 @@ public class SearchTest extends BaseTest {
                 .getItemNumberFromResults(Integer.parseInt(resultNumber));
 
         Assert.assertTrue(productDetail.verifyAboutSectionExists());
-
     }
 }

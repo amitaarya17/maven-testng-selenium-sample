@@ -25,16 +25,19 @@ public class TestNGListenerImpl implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        try {
-            final String newFileNamePath = configProperties.getProperty("SCREENSHOT_DEFAULT_FOLDER") + result.getName() + ".png";
-            LOGGER.info("Saving a screenshot- " + newFileNamePath);
+        if (System.getProperty("test.environment").equals("local"))
+        {
+            try {
+                final String newFileNamePath = configProperties.getProperty("SCREENSHOT_DEFAULT_FOLDER") + result.getName() + ".png";
+                LOGGER.info("Saving a screenshot- " + newFileNamePath);
 
-            final String base64 = ((TakesScreenshot) WebDriverManager.getDriver()).getScreenshotAs(OutputType.BASE64);
-            final File scrFile = OutputType.FILE.convertFromBase64Png(base64);
-            FileUtils.copyFile(scrFile, new File(newFileNamePath));
+                final String base64 = ((TakesScreenshot) WebDriverManager.getDriver()).getScreenshotAs(OutputType.BASE64);
+                final File scrFile = OutputType.FILE.convertFromBase64Png(base64);
+                FileUtils.copyFile(scrFile, new File(newFileNamePath));
 
-        } catch (IOException e) {
-            LOGGER.info("Could not take screenshot for the test '" + result.getName() + "' due to: " + e);
+            } catch (IOException e) {
+                LOGGER.info("Could not take screenshot for the test '" + result.getName() + "' due to: " + e);
+            }
         }
     }
 }

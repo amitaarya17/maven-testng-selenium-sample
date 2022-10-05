@@ -7,8 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ThreadGuard;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -16,7 +19,7 @@ public class WebDriverManager {
 
     protected static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static final Logger LOGGER = LogManager.getLogger(WebDriverManager.class);
-    private static final Environment ENVIRONMENT = Environment.getEnvironment(System.getProperty("test.environment", "local"));
+    public static final Environment ENVIRONMENT = Environment.getEnvironment(System.getProperty("test.environment", "local"));
     private static Properties configProperties = ConfigReader.getInstance().getEnvConfigProperties();
     private static Browser BROWSER = Browser.getBrowser(configProperties.getProperty("BROWSER"));
 
@@ -56,7 +59,23 @@ public class WebDriverManager {
     }
 
     public static WebDriver setupRemoteDriver() {
-        return getDriver();
+        switch (BROWSER) {
+            case CHROME:
+                try {
+                    driver.set(ThreadGuard.protect(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), CapabilityManager.getChromeOptions())));
+                    LOGGER.info("Successfully launched chrome browser");
+                    getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(
+                            Integer.parseInt(configProperties.getProperty("IMPLICIT_WAIT"))));
+                    getDriver().manage().window().maximize();
+                    getDriver().get(configProperties.getProperty("URL").toString());
+                    LOGGER.info("Successfully Opened the default URL- " + configProperties.getProperty("URL") + " in chrome ");
+                    return getDriver();
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+            default:
+                throw new RuntimeException("The " + BROWSER + " browser is not supported");
+        }
     }
 
     public static void quitDriver() {

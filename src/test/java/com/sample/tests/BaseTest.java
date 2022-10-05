@@ -25,17 +25,21 @@ public class BaseTest {
 
     @BeforeSuite
     public void initTest() {
-
+//        if (System.getProperty("test.environment") == null) {
+//            System.setProperty("test.environment", "grid");
+//        }
     }
 
     @AfterMethod
     public void teardownMethod(ITestResult testResult) {
-        if (!testResult.isSuccess()) {
-            final String newFileNamePath = configProperties.getProperty("SCREENSHOT_DEFAULT_FOLDER") + testResult.getName() + ".png";
-            try {
-                Allure.addAttachment("Failure Screenshot", "image/png", Files.newInputStream(Paths.get(newFileNamePath)), "png");
-            } catch (IOException e) {
-                throw new RuntimeException("Could not add the failure atatchment to failure report for " + testResult.getName());
+        if (System.getProperty("test.environment").equals("local")) {
+            if (!testResult.isSuccess()) {
+                final String newFileNamePath = configProperties.getProperty("SCREENSHOT_DEFAULT_FOLDER") + testResult.getName() + ".png";
+                try {
+                    Allure.addAttachment("Failure Screenshot", "image/png", Files.newInputStream(Paths.get(newFileNamePath)), "png");
+                } catch (IOException e) {
+                    throw new RuntimeException("Could not add the failure atatchment to failure report for " + testResult.getName());
+                }
             }
         }
         WebDriverManager.quitDriver();
