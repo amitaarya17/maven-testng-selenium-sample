@@ -25,9 +25,9 @@ public class BaseTest {
 
     @BeforeSuite
     public void initTest() {
-//        if (System.getProperty("test.environment") == null) {
-//            System.setProperty("test.environment", "grid");
-//        }
+        if (System.getProperty("test.environment") == null) {
+            System.setProperty("test.environment", "local");
+        }
     }
 
     @AfterMethod
